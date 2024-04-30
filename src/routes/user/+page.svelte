@@ -27,6 +27,8 @@
 </script>
 
 <h1>Калькулятор Матрицы Судьбы</h1>
+<!-- svelte-ignore a11y-img-redundant-alt -->
+
 
 <form on:submit={handleSubmit}>
   <label for="firstName">Имя:</label>
@@ -38,4 +40,4 @@
   <input type="date" id="dob" bind:value={dob} required /><br /><br />
   <button type="submit">Рассчитать</button>
 </form>
-<img src="/src/routes/assets/scale_1200.jpeg" alt="" width="90%"/>
+

@@ -38,4 +38,4 @@
   <input type="date" id="dob" bind:value={dob} required /><br /><br />
   <button type="submit">Рассчитать</button>
 </form>
-<img src="/src/routes/assets/scale_1200.jpeg" alt="" width="90%"/>
+<img src="/assets/scale_1200.jpeg" alt="" width="90%"/>

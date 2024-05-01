@@ -1,7 +1,44 @@
 <script>
+  import { onMount } from 'svelte';
+  import Chart from 'chart.js/auto';
+
   let birthDate = '24.02.1982';
-  let personalSquare = [];
-  let familySquare = [];
+  let personalSquareChart;
+  let familySquareChart;
+
+  let chartData = {
+    labels: ['20 лет', '30 лет', '40 лет', '50 лет'],
+    datasets: [
+      {
+        label: 'Цифровые значения',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)', // Цвет заливки
+        borderColor: 'rgba(255, 99, 132, 1)', // Цвет линии
+        borderWidth: 1, // Толщина линии
+        data: [14, 18, 5, 11], // Динамические цифровые значения
+      },
+    ],
+  };
+
+  let myChart;
+
+  onMount(() => {
+    // Получаем ссылку на элемент canvas
+    // const ctx = myChart.getContext('2d');
+    // // Создаем новый экземпляр диаграммы
+    // myChart = new Chart(ctx, {
+    //   type: 'radar',
+    //   data: chartData,
+    //   options: {
+    //     scales: {
+    //       r: {
+    //         angleLines: {
+    //           color: 'red',
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
+  });
 
   function calculateSquare() {
     // Функция для расчета личного квадрата
@@ -11,37 +48,41 @@
       // Расчет первой точки (левая)
       let firstPoint = day;
       if (firstPoint > 22) {
-        firstPoint = firstPoint % 10 + Math.floor(firstPoint / 10);
+        firstPoint = (firstPoint % 10) + Math.floor(firstPoint / 10);
       }
       personalPoints.push(firstPoint);
 
       // Расчет второй точки (верхняя)
       let secondPoint = month;
+
       personalPoints.push(secondPoint);
 
       // Расчет третьей точки (правая)
       let thirdPoint = 0;
-      year.toString().split('').forEach(digit => {
-        thirdPoint += parseInt(digit);
-      });
+      year
+        .toString()
+        .split('')
+        .forEach((digit) => {
+          thirdPoint += parseInt(digit);
+        });
       if (thirdPoint > 22) {
-        thirdPoint = thirdPoint % 10 + Math.floor(thirdPoint / 10);
+        thirdPoint = (thirdPoint % 10) + Math.floor(thirdPoint / 10);
       }
       personalPoints.push(thirdPoint);
 
       // Расчет четвертой точки (нижняя)
       let fourthPoint = firstPoint + secondPoint + thirdPoint;
       if (fourthPoint > 22) {
-        fourthPoint = fourthPoint % 10 + Math.floor(fourthPoint / 10);
+        fourthPoint = (fourthPoint % 10) + Math.floor(fourthPoint / 10);
       }
       personalPoints.push(fourthPoint);
 
       // Расчет пятой точки (центр)
       let fifthPoint = firstPoint + secondPoint + thirdPoint + fourthPoint;
       if (fifthPoint > 22) {
-        fifthPoint = fifthPoint % 10 + Math.floor(fifthPoint / 10);
+        fifthPoint = (fifthPoint % 10) + Math.floor(fifthPoint / 10);
       }
-      personalPoints.push(fifthPoint);
+      // personalPoints.push(fifthPoint);
 
       return personalPoints;
     }
@@ -57,65 +98,114 @@
       familyPoints.push(personalSquare[1] + personalSquare[2]);
 
       // Расчет нижней правой точки (род папы)
-      familyPoints.push(personalSquare[2] + personalSquare[3]);
+      familyPoints.push( personalSquare[2] + personalSquare[3]>22? (personalSquare[2] + personalSquare[3])/10+(personalSquare[2] + personalSquare[3])%10 : personalSquare[2] + personalSquare[3]);
 
       // Расчет нижней левой точки (род мамы)
-      familyPoints.push(personalSquare[3] + personalSquare[4]);
-
-      // Расчет кармического "хвостика"
-      let karmicTail = [];
-      karmicTail.push(personalSquare[3] + personalSquare[4]);
-      karmicTail.push(personalSquare[4] + personalSquare[2]);
-
-      // Расчет точки благополучия
-      familyPoints.push(karmicTail[0] + karmicTail[1]);
+      familyPoints.push(personalSquare[3] + personalSquare[0]>22? (personalSquare[3] + personalSquare[0])/10+(personalSquare[3] + personalSquare[0])%10 : personalSquare[3] + personalSquare[0]);
 
       return familyPoints;
     }
 
     // Проверка наличия даты рождения
     if (birthDate) {
-      let [day, month, year] = birthDate.split('.').map(item => parseInt(item));
-      personalSquare = calculatePersonalSquare(day, month, year);
-      familySquare = calculateFamilySquare(personalSquare);
+      let [day, month, year] = birthDate
+        .split('.')
+        .map((item) => parseInt(item));
+      let personalSquare = calculatePersonalSquare(day, month, year);
+      let familySquare = calculateFamilySquare(personalSquare);
+      drawSquare(personalSquare, familySquare);
     } else {
       // Обработка случая отсутствия даты рождения
       console.error('Введите дату рождения');
     }
   }
-</script>
 
-<style>
-  /* Стили компонента */
-</style>
+  // Функция для отрисовки квадратов с использованием Chart.js
+  function drawSquare(personalSquare, familySquare) {
+    const ctx = myChart.getContext('2d');
+
+    myChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: [
+          // '20 лет',
+          // '30 лет',
+          // '40 лет',
+          // '50 лет',
+          '60 лет',
+          '70 лет',
+          '0 лет',
+          '10 лет',
+        ],
+        datasets: [
+          {
+            label: 'Личный квадрат',
+            data: personalSquare,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Цвет заливки
+            borderColor: 'rgba(255, 99, 132, 1)', // Цвет линии
+            borderWidth: 1, // Толщина линии
+          },
+          {
+            label: 'Родовой квадрат',
+            data: familySquare,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Цвет заливки
+            borderColor: 'rgba(54, 162, 235, 1)', // Цвет линии
+            borderWidth: 1, // Толщина линии
+          },
+        ],
+      },
+      options: {
+        scales: {
+          r: {
+            min: 1,
+            max: 22,
+            angleLines: {
+              color: 'red',
+            },
+          },
+        },
+      },
+    });
+
+    // Обновляем данные графика
+    myChart.data.datasets[0].data = personalSquare;
+    myChart.data.datasets[1].data = familySquare;
+    myChart.update();
+  }
+</script>
 
 <div>
   <label for="birthDateInput">Введите дату рождения (ДД.ММ.ГГГГ): </label>
-  <input type="text" id="birthDateInput" bind:value={birthDate}>
+  <input type="text" id="birthDateInput" bind:value={birthDate} />
 
   <button on:click={calculateSquare}>Рассчитать квадраты</button>
 
-  {#if personalSquare.length > 0}
-    <div>
-      <h2>Личный квадрат:</h2>
-      <ul>
-        {#each personalSquare as point}
-          <li>{point}</li>
-        {/each}
-      </ul>
-    </div>
-  {/if}
-
-  {#if familySquare.length > 0}
-    <div>
-      <h2>Родовой квадрат:</h2>
-      <ul>
-        {#each familySquare as point}
-          <li>{point}</li>
-        {/each}
-      </ul>
-    </div>
-  {/if}
+  <!-- <canvas id="squareChart" width="400" height="400"></canvas> -->
 </div>
 
-<img src="/assets/scale_1200.jpeg" alt="" width="50%"/>
+<div class="container">
+  <!-- Создаем элемент canvas для отображения диаграммы -->
+  <canvas bind:this={myChart}></canvas>
+  <!-- Вставляем изображение как фоновое -->
+  <!-- <img
+    src="./src/routes/assets/scale_1200.jpeg"
+    alt="Изображение"
+    class="image"
+  /> -->
+</div>
+
+<style>
+  .container {
+    position: relative;
+    width: 500px; /* Укажите желаемую ширину изображения */
+    height: 500px; /* Укажите желаемую высоту изображения */
+  }
+
+  canvas {
+    /* display: none; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+</style>

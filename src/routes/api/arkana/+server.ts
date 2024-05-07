@@ -9,7 +9,7 @@ export async function GET( event ) {
 
     // Обработка данных и запрос к базе данных
     try {
-        const result = await GetDataEdit( id );
+        const result = await GetData( id );
         
         return new Response(JSON.stringify({
             status: 200,
@@ -25,13 +25,21 @@ export async function GET( event ) {
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
-    let { id, text } = await request.json();
-    console.log()
-    const res = SaveData({ id, text });
-
-    return new Response(JSON.stringify({
-        res
-    }));
+    let { func, text, arkan, level, type } = await request.json();
+    let res;
+    switch (func) {
+        case 'GetDataEdit':
+            res = await GetDataEdit({ arkan, level, type });
+            return new Response(JSON.stringify({
+                res
+            }));
+        case 'SaveData':
+            res = await SaveData({ text, arkan, level, type });
+            return new Response(JSON.stringify({
+                res
+            }));
+    }
 }
+
 
 

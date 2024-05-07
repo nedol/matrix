@@ -20,13 +20,33 @@ export async function CreatePool(resolve) {
   resolve();
 }
 
-export async function GetDataEdit(id) {
+export async function GetData() {
   try {
-    const res = await sql`
+    const arkans = await sql`
         SELECT * FROM arkans ORDER BY id ASC
     `;
+  
+    const levels = await sql`
+        SELECT * FROM levels ORDER BY id ASC
+    `;
 
-    return res;
+    const types = await sql`
+        SELECT * FROM types ORDER BY id ASC
+    `;
+
+    return { arkans, levels, types };
+  } catch (ex) {
+    console.log(ex);
+  }
+}
+
+export async function GetDataEdit(data) {
+  try {
+    const text = await sql`
+        SELECT * FROM text WHERE arkan=${data.arkan} AND level=${data.level} AND type=${data.type}
+    `;
+
+    return  text;
   } catch (ex) {
     console.log(ex);
   }
@@ -35,8 +55,12 @@ export async function GetDataEdit(id) {
 export async function SaveData(par) {
   try {
     const res = await sql`
-        UPDATE arkans SET data=${par.text} WHERE id=${par.id}
-    `;
+      INSERT INTO text
+			(data, arkan , level, type)
+			VALUES(${par.text},${par.arkan},${par.level},${par.type})
+			ON CONFLICT (arkan, level, type)
+			DO UPDATE SET
+			data = EXCLUDED.data`;
     return res;
   } catch (ex) {
     console.log(ex);

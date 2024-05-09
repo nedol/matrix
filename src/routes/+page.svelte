@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
 
+  import Diagrama from './Diagrama.svelte';
+
   let birthDate = '24.02.1982';
   let personalSquareChart;
   let familySquareChart;
@@ -98,10 +100,20 @@
       familyPoints.push(personalSquare[1] + personalSquare[2]);
 
       // Расчет нижней правой точки (род папы)
-      familyPoints.push( personalSquare[2] + personalSquare[3]>22? (personalSquare[2] + personalSquare[3])/10+(personalSquare[2] + personalSquare[3])%10 : personalSquare[2] + personalSquare[3]);
+      familyPoints.push(
+        personalSquare[2] + personalSquare[3] > 22
+          ? (personalSquare[2] + personalSquare[3]) / 10 +
+              ((personalSquare[2] + personalSquare[3]) % 10)
+          : personalSquare[2] + personalSquare[3]
+      );
 
       // Расчет нижней левой точки (род мамы)
-      familyPoints.push(personalSquare[3] + personalSquare[0]>22? (personalSquare[3] + personalSquare[0])/10+(personalSquare[3] + personalSquare[0])%10 : personalSquare[3] + personalSquare[0]);
+      familyPoints.push(
+        personalSquare[3] + personalSquare[0] > 22
+          ? (personalSquare[3] + personalSquare[0]) / 10 +
+              ((personalSquare[3] + personalSquare[0]) % 10)
+          : personalSquare[3] + personalSquare[0]
+      );
 
       return familyPoints;
     }
@@ -193,6 +205,10 @@
     class="image"
   /> -->
 </div>
+
+<img src="../../src/assets/flouwer.svg" alt="" />
+
+<!-- <Diagrama></Diagrama> -->
 
 <style>
   .container {

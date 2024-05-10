@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
 
-  import Diagrama from './Diagrama.svelte';
+  import Diagrama from './Diagrama2.svelte';
 
   let birthDate = '24.02.1982';
   let personalSquareChart;
@@ -206,9 +206,9 @@
   /> -->
 </div>
 
-<img src="../../src/assets/flouwer.svg" alt="" />
+<!-- <img src="../../src/assets/flouwer.svg" alt="" /> -->
 
-<!-- <Diagrama></Diagrama> -->
+<Diagrama></Diagrama>
 
 <style>
   .container {

@@ -4,6 +4,40 @@
 
   import Diagrama from './Diagrama2.svelte';
 
+  let params = {
+    B_diagram: '',
+    B1_diagram: '',
+    B2_diagram: '',
+    B3_diagram: '',
+    E_diagram: '',
+    E1_diagram: '',
+    E2_diagram: '',
+    F_diagram: '',
+    F1_diagram: '',
+    F2_diagram: '',
+    A_diagram: '',
+    A1_diagram: '',
+    A2_diagram: '',
+    A3_diagram: '',
+    C_diagram: '',
+    C1_diagram: '',
+    C2_diagram: '',
+    Y_diagram: '',
+    H_diagram: '',
+    H1_diagram: '',
+    H2_diagram: '',
+    G_diagram: '',
+    G1_diagram: '',
+    G2_diagram: '',
+    G4_diagram: '',
+    L_diagram: '',
+    M_diagram: '',
+    D_diagram: '',
+    D1_diagram: '',
+    D2_diagram: '',
+    X_diagram: '',
+  };
+
   let birthDate = '24.02.1982';
   let personalSquareChart;
   let familySquareChart;
@@ -42,6 +76,13 @@
     // });
   });
 
+  function ПривестиК(val) {
+    if (val > 22) {
+      return (val % 10) + Math.floor(val / 10);
+    }
+    return val;
+  }
+
   function calculateSquare() {
     // Функция для расчета личного квадрата
     function calculatePersonalSquare(day, month, year) {
@@ -54,10 +95,15 @@
       }
       personalPoints.push(firstPoint);
 
+      params.A_diagram = firstPoint;
+
       // Расчет второй точки (верхняя)
       let secondPoint = month;
+      params.B_diagram = secondPoint;
 
       personalPoints.push(secondPoint);
+
+      params.E2_diagram = ПривестиК(params.A_diagram + params.B_diagram);
 
       // Расчет третьей точки (правая)
       let thirdPoint = 0;
@@ -67,24 +113,29 @@
         .forEach((digit) => {
           thirdPoint += parseInt(digit);
         });
-      if (thirdPoint > 22) {
-        thirdPoint = (thirdPoint % 10) + Math.floor(thirdPoint / 10);
-      }
+      ПривестиК(thirdPoint);
       personalPoints.push(thirdPoint);
+      params.C_diagram = thirdPoint;
+
+      params.F2_diagram = ПривестиК(params.B_diagram + params.C_diagram);
 
       // Расчет четвертой точки (нижняя)
-      let fourthPoint = firstPoint + secondPoint + thirdPoint;
-      if (fourthPoint > 22) {
-        fourthPoint = (fourthPoint % 10) + Math.floor(fourthPoint / 10);
-      }
+      let fourthPoint = ПривестиК(firstPoint + secondPoint + thirdPoint);
+
       personalPoints.push(fourthPoint);
+      params.D_diagram = fourthPoint;
 
       // Расчет пятой точки (центр)
-      let fifthPoint = firstPoint + secondPoint + thirdPoint + fourthPoint;
-      if (fifthPoint > 22) {
-        fifthPoint = (fifthPoint % 10) + Math.floor(fifthPoint / 10);
-      }
+      let fifthPoint = ПривестиК(
+        thirdPoint + firstPoint + secondPoint + thirdPoint + fourthPoint
+      );
+
       // personalPoints.push(fifthPoint);
+      params.X_diagram = fifthPoint;
+
+      params.G2_diagram = ПривестиК(params.C_diagram + params.D_diagram);
+
+      params.H2_diagram = ПривестиК(params.A_diagram + params.D_diagram);
 
       return personalPoints;
     }
@@ -96,24 +147,58 @@
       // Расчет верхней левой точки (род папы)
       familyPoints.push(personalSquare[0] + personalSquare[1]);
 
+      params.E_diagram = ПривестиК(personalSquare[0] + personalSquare[1]);
+
+      params.E1_diagram = ПривестиК(params.E_diagram + params.E2_diagram);
+
       // Расчет верхней правой точки (род мамы)
-      familyPoints.push(personalSquare[1] + personalSquare[2]);
+
+      params.F_diagram = ПривестиК(personalSquare[1] + personalSquare[2]);
+      familyPoints.push(params.F_diagram);
+
+      params.B2_diagram = ПривестиК(params.E_diagram + params.F_diagram);
+
+      params.B1_diagram = ПривестиК(params.B_diagram + params.B2_diagram);
 
       // Расчет нижней правой точки (род папы)
-      familyPoints.push(
-        personalSquare[2] + personalSquare[3] > 22
-          ? (personalSquare[2] + personalSquare[3]) / 10 +
-              ((personalSquare[2] + personalSquare[3]) % 10)
-          : personalSquare[2] + personalSquare[3]
-      );
+
+      params.G_diagram = ПривестиК(personalSquare[2] + personalSquare[3]);
+
+      familyPoints.push(params.E_diagram);
+
+      params.C2_diagram = ПривестиК(params.F_diagram + params.G_diagram);
+
+      params.F1_diagram = ПривестиК(params.F_diagram + params.F2_diagram);
+
+      params.C1_diagram = ПривестиК(params.C_diagram + params.C2_diagram);
 
       // Расчет нижней левой точки (род мамы)
-      familyPoints.push(
-        personalSquare[3] + personalSquare[0] > 22
-          ? (personalSquare[3] + personalSquare[0]) / 10 +
-              ((personalSquare[3] + personalSquare[0]) % 10)
-          : personalSquare[3] + personalSquare[0]
-      );
+
+      params.H_diagram = ПривестиК(personalSquare[3] + personalSquare[0]);
+
+      params.D2_diagram = ПривестиК(params.G_diagram + params.H_diagram);
+
+      params.A2_diagram = ПривестиК(params.E_diagram + params.H_diagram);
+
+      params.A1_diagram = ПривестиК(params.A_diagram + params.A2_diagram);
+
+      params.G1_diagram = ПривестиК(params.G_diagram + params.G2_diagram);
+
+      params.D1_diagram = ПривестиК(params.D_diagram + params.D2_diagram);
+
+      params.H1_diagram = ПривестиК(params.H_diagram + params.H2_diagram);
+
+      params.A3_diagram = ПривестиК(params.X_diagram + params.A2_diagram);
+
+      params.B3_diagram = ПривестиК(params.X_diagram + params.B2_diagram);
+
+      params.Y_diagram = ПривестиК(params.X_diagram + params.C2_diagram);
+
+      params.G4_diagram =  ПривестиК(params.X_diagram + params.G2_diagram);
+
+      params.M_diagram = ПривестиК(params.G4_diagram + params.C2_diagram);
+
+      params.L_diagram = ПривестиК(params.G4_diagram + params.D2_diagram);
 
       return familyPoints;
     }
@@ -208,7 +293,7 @@
 
 <!-- <img src="../../src/assets/flouwer.svg" alt="" /> -->
 
-<Diagrama></Diagrama>
+<Diagrama data={params}></Diagrama>
 
 <style>
   .container {

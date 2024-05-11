@@ -281,6 +281,10 @@
 </div>
 
 <div class="container">
+
+
+<Diagrama data={params}></Diagrama>
+
   <!-- Создаем элемент canvas для отображения диаграммы -->
   <canvas bind:this={myChart}></canvas>
   <!-- Вставляем изображение как фоновое -->
@@ -290,10 +294,6 @@
     class="image"
   /> -->
 </div>
-
-<!-- <img src="../../src/assets/flouwer.svg" alt="" /> -->
-
-<Diagrama data={params}></Diagrama>
 
 <style>
   .container {
@@ -305,7 +305,7 @@
   canvas {
     /* display: none; */
     position: absolute;
-    top: 0;
+    top: 60vh;
     left: 0;
     z-index: 1;
   }

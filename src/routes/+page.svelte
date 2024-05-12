@@ -3,6 +3,8 @@
   import Chart from 'chart.js/auto';
   import ISO6391 from 'iso-google-locales';
   import langs_list from '$lib/lang_list.json';
+  import '$lib/bootstrap.min.css';
+  import '$lib/style-new.css';
 
   import Diagrama from './Diagrama2.svelte';
 
@@ -344,13 +346,83 @@
     placeholder="dd.mm.yyyy"
   />
   {#await Translate('Рассчитать квадраты', lang) then data}
-  <button on:click={calculateSquare}>{data}</button>
+    <button on:click={calculateSquare}>{data}</button>
   {/await}
 
   <!-- <canvas id="squareChart" width="400" height="400"></canvas> -->
 </div>
 
 <div class="container">
+  <div class="first-screen-content">
+    <h1>Матрица Судьбы</h1>
+    <h2>
+      <span style="color: #707070">Глубокая расшифровка вашей личности</span>
+    </h2>
+    <p>
+      <span style="color: #707070"
+        ><strong>Рассчитайте бесплатно</strong> вашу матрицу судьбы, прямо сейчас,
+        чтобы узнать себя на 100%</span
+      >
+    </p>
+
+    <div class="inputs">
+      <input
+        id="name"
+        type="text"
+        placeholder="Введите ваше имя*"
+        class="inputs-header"
+      />
+      <input
+        id="date"
+        type="text"
+        placeholder="Введите дату рождения*"
+        class="inputs-header inputs-header-date"
+      />
+      <div class="inputs-gender">
+        <span id="woman" class="inputs-gender-woman active-gender">Ж</span>
+        <span id="man" class="inputs-gender-man">М</span>
+      </div>
+    </div>
+    <a
+      href="https://humanmatrix.ru/calculator"
+      id="calculate_button"
+      style="cursor: pointer"
+      class="btn-count"
+      >Рассчитать мою матрицу
+    </a>
+  </div>
+
+  <div class="container-big">
+    <div class="matrica-destiny-content">
+      <div class="matrica-destiny-text">
+        <h2>Что такое матрица судьбы?</h2>
+        <p class="p-strong">
+          Это система для персонального расчёта всех важных аспектов жизни,
+          основанная на дате вашего рождения. Это самое простое и быстрое
+          решение, если вам нужны точные ответы здесь и сейчас.
+        </p>
+        <p>
+          Результаты расшифровок нашего калькулятора, дают не только подробное
+          описание ваших качеств, но и откроют «слепые зоны» и врожденные
+          программы, развивая которые, Вы перейдёте на новый уровень во всех
+          сферах жизни.
+        </p>
+        <p>
+          Благодаря комбинации из тысяч расшифровок в нашем сервисе, Вы
+          моментально получите свой глубокий разбор личности, даже без помощи
+          нумеролога.
+        </p>
+
+      </div>
+      <!-- <img
+        data-aos="flip-down"
+        src="https://humanmatrix.ru/wp-content/themes/matrix_new/img/matrica-destiny.svg"
+        alt="matrica"
+        class="matrica-img aos-init aos-animate"
+      /> -->
+    </div>
+  </div>
+
   <Diagrama data={params}></Diagrama>
 
   <!-- Создаем элемент canvas для отображения диаграммы -->
@@ -370,7 +442,7 @@
     height: 500px; /* Укажите желаемую высоту изображения */
   }
 
-   .lang_span {
+  .lang_span {
     position: absolute;
     right: 20px;
     font-size: smaller;
@@ -384,7 +456,7 @@
     justify-content: center; /* Выравниваем содержимое по центру вертикально */
     align-items: center; /* Выравниваем содержимое по центру горизонтально */
     background-color: whitesmoke;
-    z-index:2;
+    z-index: 2;
   }
 
   canvas {

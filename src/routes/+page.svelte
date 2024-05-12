@@ -379,7 +379,7 @@
     position: absolute;
     top: 50px;
     right: 30px;
-    height: 80vh;
+    height: 75vh;
     overflow: auto;
     justify-content: center; /* Выравниваем содержимое по центру вертикально */
     align-items: center; /* Выравниваем содержимое по центру горизонтально */

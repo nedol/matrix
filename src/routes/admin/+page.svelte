@@ -40,19 +40,7 @@
     langs = data.langs;
   // const levels = Array.from({length: 10}, (_, index) => index + 1);
 
-  async function Translate(text: string, from_lang: string, to_lang: string) {
-    try {
-      translate.from = from_lang;
-
-      return await translate(text.trim(), to_lang);
-    } catch (error) {
-      console.error('Translation error:', error);
-      return text; // или другое подходящее значение по умолчанию
-    }
-  }
-
   async function GetDataEdit(arkan, level, type, lang) {
-
     const response = await fetch('./admin', {
       method: 'POST',
       headers: {
@@ -72,7 +60,7 @@
       console.log(result.res[0]);
       if (result.res[0]) {
         text[lang] = result.res[0].data;
-      } 
+      }
     }
   }
 
@@ -96,6 +84,32 @@
       const result = await response.json();
       console.log('Результат:', result);
       // Здесь можно обработать результат, например, отобразить его на странице
+    } else {
+      console.error('Ошибка при отправке данных');
+      // Здесь можно обработать ошибку, например, показать сообщение об ошибке пользователю
+    }
+  }
+
+  async function Translate(text: string, to_lang: string) {
+    if(to_lang==='ru')
+     return text;
+    const response = await fetch('./admin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        func: 'Translate',
+        text: text,
+        lang: lang,
+      }),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Результат:', result);
+      // Здесь можно обработать результат, например, отобразить его на странице
+      return result.res
     } else {
       console.error('Ошибка при отправке данных');
       // Здесь можно обработать ошибку, например, показать сообщение об ошибке пользователю
@@ -145,7 +159,9 @@
   </div>
 </header>
 <br />
-<h1>Ввод и редактирование данных матрицы</h1>
+
+  <h1>Ввод и редактирование данных матрицы</h1>
+
 <label for="arkan">Аркан:</label>
 <select id="arkan" bind:value={selectedArkan}>
   {#each data.arkans as data, t}

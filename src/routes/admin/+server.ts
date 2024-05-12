@@ -45,12 +45,19 @@ export async function POST({ request }) {
             return new Response(JSON.stringify({
                 res
             }));
+        case 'Translate':
+            res = await Translate( text, lang );
+            return new Response(JSON.stringify({
+                res
+            }));
     }
 }
 
- async function Translate(text, from_lang, to_lang) {
-    try {
-        translate.from = from_lang;
+ async function Translate(text, lang) {
+     try {
+         if (lang === 'ru')
+             return text;
+        translate.from = 'ru';
         text = text.replace(/\r\n/g, "");
 
         // Разделение текста на предложения
@@ -60,7 +67,7 @@ export async function POST({ request }) {
         // Перевод каждой части текста (по 10 предложений)
         for (let i = 0; i < sentences.length; i += 10) {
             const chunk = sentences.slice(i, i + 10).join('. '); // Объединение 10 предложений в одну часть
-            const res = await translate(chunk, to_lang);
+            const res = await translate(chunk, lang);
             translatedText += res + ' '; // Добавление переведенной части к полному тексту
         }
 

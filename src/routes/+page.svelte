@@ -1,8 +1,13 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
+  import ISO6391 from 'iso-google-locales';
+  import langs_list from '$lib/lang_list.json';
 
   import Diagrama from './Diagrama2.svelte';
+
+  let lang = 'ru';
+  let lang_menu = false;
 
   let params = {
     B_diagram: '',
@@ -75,6 +80,40 @@
     //   },
     // });
   });
+
+  async function Translate(text: string, to_lang: string) {
+    if (to_lang === 'ru') return text;
+    const response = await fetch('./admin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        func: 'Translate',
+        text: text,
+        lang: lang,
+      }),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Результат:', result);
+      // Здесь можно обработать результат, например, отобразить его на странице
+      return result.res;
+    } else {
+      console.error('Ошибка при отправке данных');
+      // Здесь можно обработать ошибку, например, показать сообщение об ошибке пользователю
+    }
+  }
+
+  function setLang(ev) {
+    let l = ev.currentTarget.outerText;
+    let code = ISO6391.getCode(l);
+    if (code !== 'English') {
+      lang = code;
+    }
+    lang_menu = false;
+  }
 
   function ПривестиК(val) {
     if (val > 22) {
@@ -194,7 +233,7 @@
 
       params.Y_diagram = ПривестиК(params.X_diagram + params.C2_diagram);
 
-      params.G4_diagram =  ПривестиК(params.X_diagram + params.G2_diagram);
+      params.G4_diagram = ПривестиК(params.X_diagram + params.G2_diagram);
 
       params.M_diagram = ПривестиК(params.G4_diagram + params.C2_diagram);
 
@@ -213,7 +252,7 @@
       drawSquare(personalSquare, familySquare);
     } else {
       // Обработка случая отсутствия даты рождения
-     alert('Введите дату рождения');
+      alert('Введите дату рождения');
     }
   }
 
@@ -271,19 +310,48 @@
   }
 </script>
 
+<span
+  class="lang_span"
+  on:click={() => {
+    lang_menu = !lang_menu;
+  }}
+  >{(() => {
+    return ISO6391.getNativeName(lang);
+  })()}</span
+>
+{#if lang_menu}
+  <div class="lang_list">
+    {#each langs_list as lang}
+      <div
+        style="color:black; margin:10px;font-size:smaller"
+        on:click={setLang}
+      >
+        {lang}
+      </div>
+    {/each}
+  </div>
+{/if}
 <div>
-  <label for="birthDateInput">Введите дату рождения: </label>
-  <input type="text" id="birthDateInput" bind:value={birthDate} pattern="\d{2}\.\d{2}\.\d{4}" placeholder="ДД.ММ.ГГГГ"/>
+  {#await Translate('Ввод и редактирование данных матрицы', lang) then data}
+    <label for="birthDateInput">{data}: </label>
+  {/await}
 
-  <button on:click={calculateSquare}>Рассчитать квадраты</button>
+  <input
+    type="text"
+    id="birthDateInput"
+    bind:value={birthDate}
+    pattern="\d{2}\.\d{2}\.\d{4}"
+    placeholder="dd.mm.yyyy"
+  />
+  {#await Translate('Рассчитать квадраты', lang) then data}
+  <button on:click={calculateSquare}>{data}</button>
+  {/await}
 
   <!-- <canvas id="squareChart" width="400" height="400"></canvas> -->
 </div>
 
 <div class="container">
-
-
-<Diagrama data={params}></Diagrama>
+  <Diagrama data={params}></Diagrama>
 
   <!-- Создаем элемент canvas для отображения диаграммы -->
   <canvas bind:this={myChart}></canvas>
@@ -302,10 +370,26 @@
     height: 500px; /* Укажите желаемую высоту изображения */
   }
 
+   .lang_span {
+    position: absolute;
+    right: 20px;
+    font-size: smaller;
+  }
+  .lang_list {
+    position: absolute;
+    top: 50px;
+    right: 30px;
+    height: 80vh;
+    overflow: auto;
+    justify-content: center; /* Выравниваем содержимое по центру вертикально */
+    align-items: center; /* Выравниваем содержимое по центру горизонтально */
+    background-color: whitesmoke;
+  }
+
   canvas {
     /* display: none; */
     position: absolute;
-    top:80vh;
+    top: 80vh;
     left: 0;
     z-index: 1;
   }

@@ -1,6 +1,6 @@
 
-import { CreatePool } from '../api/arkana/db.admin.js'; //src\lib\server\server.db.js
-import { GetData,GetDataEdit } from '../api/arkana/db.admin.js';
+import { CreatePool } from './db.admin.js'; //src\lib\server\server.db.js
+import { GetData } from './db.admin.js';
 
 
 /** @type {import('./$types').PageServerLoad} */

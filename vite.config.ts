@@ -17,6 +17,24 @@ export default defineConfig({
     },
   },
 
+    server: {
+    //port: 3478, // Измените этот порт по вашему усмотрению
+    https: {
+      key: path.resolve("./key.pem"),
+      cert: path.resolve("./cert.pem"),
+    },
+    // middleware: [
+    // 	createProxyMiddleware('/turn', {
+    // 		target: 'http://0.0.0.0:3478',
+    // 		pathRewrite: {
+    // 			'^/turn': '' // Удалить префикс /turn из URL перед отправкой на сервер TURN
+    // 		},
+    // 		changeOrigin: true // Включить изменение происхождения запросов
+    // 	})
+    // ]
+  },
+
+
   build: {
     // Устанавливаем dev: true только для целей разработки
     dev: true,

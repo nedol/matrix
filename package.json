@@ -7,12 +7,26 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"smui-theme": "smui-theme compile ./src/routes/smui.css -i src/theme",
+		"prepare": "npm run smui-theme"
 	},
 	"devDependencies": {
+		"@material/typography": "^14.0.0",
+		"@smui/chips": "^7.0.0-beta.18",
+		"@smui/fab": "^7.0.0-beta.18",
+		"@smui/icon-button": "^7.0.0-beta.18",
+		"@smui/layout-grid": "^7.0.0-beta.18",
+		"@smui/menu": "^7.0.0-beta.18",
+		"@smui/paper": "^7.0.0-beta.18",
+		"@smui/segmented-button": "^7.0.0-beta.18",
+		"@smui/select": "^7.0.0-beta.18",
+		"@smui/tab": "^7.0.0-beta.18",
+		"@smui/tab-bar": "^7.0.0-beta.18",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.1.0",
+		"smui-theme": "^7.0.0",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
 		"tslib": "^2.4.1",
@@ -21,11 +35,14 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@smui/top-app-bar": "^7.0.0",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"chart": "^0.1.2",
 		"chart.js": "^4.4.2",
 		"http-proxy-middleware": "^3.0.0",
+		"iso-google-locales": "^3.0.4",
 		"postgres": "^3.4.4",
+		"translate": "^3.0.0",
 		"vite-plugin-commonjs": "^0.10.1"
 	}
 }

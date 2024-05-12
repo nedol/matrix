@@ -47,7 +47,7 @@ export async function GetData() {
 export async function GetDataEdit(data) {
   try {
     const text = await sql`
-        SELECT * FROM text WHERE arkan=${data.arkan} AND level=${data.level} AND type=${data.type} AND lang=${data.lang}
+        SELECT * FROM text WHERE arkan=${data.arkan} AND level=${data.level} AND type=${data.type} AND (lang=${data.lang} OR lang='ru')
     `;
 
     return  text;

@@ -1,6 +1,8 @@
 // src/routes/api/calculate.js
 
-
+  import translate from 'translate';
+translate.engine = 'google';
+  
 import {  GetDataEdit , SaveData} from './db.admin.js'; 
 
 /** @type {import('./$types').RequestHandler} */
@@ -29,7 +31,12 @@ export async function POST({ request }) {
     let res;
     switch (func) {
         case 'GetDataEdit':
-            res = await GetDataEdit({ arkan, level, type , lang});
+            res = await GetDataEdit({ arkan, level, type, lang });
+            if (res[1]) {
+                res[0].data = res[1].data
+            } else if (res[0] && res[0].lang!==lang && !res[1]) {
+               res[0].data =  await Translate(res[0].data, 'ru',lang)
+            }
             return new Response(JSON.stringify({
                 res
             }));
@@ -40,6 +47,18 @@ export async function POST({ request }) {
             }));
     }
 }
+
+  async function Translate(text: string, from_lang: string, to_lang: string) {
+    try {
+      translate.from = from_lang;
+        text = text.replace(/\r\n/g, "");
+        let res = await translate(text, to_lang);
+        return res;
+    } catch (error) {
+      console.error('Translation error:', error);
+      return text; // или другое подходящее значение по умолчанию
+    }
+  }
 
 
 

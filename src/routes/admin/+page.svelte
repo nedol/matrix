@@ -2,8 +2,6 @@
 <script lang="ts">
   // import { SaveData } from '../api/arkana/db.admin';
   // import { GetData } from '../api/calculate/db';
-  import translate from 'translate';
-  translate.engine = 'google';
 
   import TopAppBar, {
     Row,

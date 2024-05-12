@@ -384,6 +384,7 @@
     justify-content: center; /* Выравниваем содержимое по центру вертикально */
     align-items: center; /* Выравниваем содержимое по центру горизонтально */
     background-color: whitesmoke;
+    z-index:2;
   }
 
   canvas {

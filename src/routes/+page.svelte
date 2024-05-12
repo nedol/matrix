@@ -38,7 +38,7 @@
     X_diagram: '',
   };
 
-  let birthDate = '24.02.1982';
+  let birthDate = '';
   let personalSquareChart;
   let familySquareChart;
 
@@ -213,7 +213,7 @@
       drawSquare(personalSquare, familySquare);
     } else {
       // Обработка случая отсутствия даты рождения
-      console.error('Введите дату рождения');
+     alert('Введите дату рождения');
     }
   }
 
@@ -225,10 +225,10 @@
       type: 'radar',
       data: {
         labels: [
-          // '20 лет',
-          // '30 лет',
-          // '40 лет',
-          // '50 лет',
+          '20 лет',
+          '30 лет',
+          '40 лет',
+          '50 лет',
           '60 лет',
           '70 лет',
           '0 лет',
@@ -272,8 +272,8 @@
 </script>
 
 <div>
-  <label for="birthDateInput">Введите дату рождения (ДД.ММ.ГГГГ): </label>
-  <input type="text" id="birthDateInput" bind:value={birthDate} />
+  <label for="birthDateInput">Введите дату рождения: </label>
+  <input type="text" id="birthDateInput" bind:value={birthDate} pattern="\d{2}\.\d{2}\.\d{4}" placeholder="ДД.ММ.ГГГГ"/>
 
   <button on:click={calculateSquare}>Рассчитать квадраты</button>
 

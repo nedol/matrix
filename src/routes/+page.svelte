@@ -354,65 +354,88 @@
 
 <div class="container">
   <div class="first-screen-content">
-    <h1>Матрица Судьбы</h1>
+    {#await Translate(`Матрица Судьбы`,lang) then data}
+    <h1>{data}</h1>
+    {/await}
     <h2>
-      <span style="color: #707070">Глубокая расшифровка вашей личности</span>
+      {#await Translate(`Глубокая расшифровка вашей личности`,lang) then data}
+      <span style="color: #707070">{data}</span>
+      {/await}
     </h2>
     <p>
+      
       <span style="color: #707070"
-        ><strong>Рассчитайте бесплатно</strong> вашу матрицу судьбы, прямо сейчас,
-        чтобы узнать себя на 100%</span
-      >
+        >
+        {#await Translate(`Рассчитайте бесплатно`,lang) then data}
+        <strong>{data}</strong> 
+        {/await}
+         {#await Translate(`вашу матрицу судьбы, прямо сейчас,
+        чтобы узнать себя на 100%`,lang) then data}
+        {data}
+        {/await}
+        </span>
     </p>
 
     <div class="inputs">
+      {#await Translate(`Введите ваше имя*`,lang) then data}
       <input
         id="name"
         type="text"
-        placeholder="Введите ваше имя*"
+        placeholder={data}
         class="inputs-header"
       />
+      {/await}
+      {#await Translate(`Введите дату рождения*`,lang) then data}
       <input
         id="date"
         type="text"
-        placeholder="Введите дату рождения*"
+        placeholder={data}
         class="inputs-header inputs-header-date"
       />
+      {/await}
       <div class="inputs-gender">
         <span id="woman" class="inputs-gender-woman active-gender">Ж</span>
         <span id="man" class="inputs-gender-man">М</span>
       </div>
     </div>
+     {#await Translate(`Рассчитать мою матрицу`,lang) then data}
     <a
       href="https://humanmatrix.ru/calculator"
       id="calculate_button"
       style="cursor: pointer"
       class="btn-count"
-      >Рассчитать мою матрицу
+      >{data}
     </a>
+    {/await}
   </div>
 
   <div class="container-big">
     <div class="matrica-destiny-content">
       <div class="matrica-destiny-text">
-        <h2>Что такое матрица судьбы?</h2>
-        <p class="p-strong">
-          Это система для персонального расчёта всех важных аспектов жизни,
+        {#await Translate(`
+        Что такое матрица судьбы?`,  lang) then data}
+          <h2>{data}</h2>
+        {/await}
+        {#await Translate(`
+               Это система для персонального расчёта всех важных аспектов жизни,
           основанная на дате вашего рождения. Это самое простое и быстрое
-          решение, если вам нужны точные ответы здесь и сейчас.
-        </p>
-        <p>
+          решение, если вам нужны точные ответы здесь и сейчас.`, lang) then data}
+          <p class="p-strong">{data}</p>
+        {/await}
+        {#await Translate(`
           Результаты расшифровок нашего калькулятора, дают не только подробное
           описание ваших качеств, но и откроют «слепые зоны» и врожденные
           программы, развивая которые, Вы перейдёте на новый уровень во всех
-          сферах жизни.
-        </p>
-        <p>
+          сферах жизни.`,lang) then data}
+
+        <p>{data}</p>
+        {/await}
+        {#await Translate(`
           Благодаря комбинации из тысяч расшифровок в нашем сервисе, Вы
           моментально получите свой глубокий разбор личности, даже без помощи
-          нумеролога.
-        </p>
-
+          нумеролога.`,lang) then data}
+        <p>{data}</p>
+        {/await}
       </div>
       <!-- <img
         data-aos="flip-down"

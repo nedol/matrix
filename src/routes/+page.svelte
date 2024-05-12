@@ -305,7 +305,7 @@
   canvas {
     /* display: none; */
     position: absolute;
-    top: 60vh;
+    top:80vh;
     left: 0;
     z-index: 1;
   }

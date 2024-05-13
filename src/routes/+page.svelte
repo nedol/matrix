@@ -12,37 +12,37 @@
   let lang_menu = false;
 
   let params = {
-    B_diagram: '',
-    B1_diagram: '',
-    B2_diagram: '',
-    B3_diagram: '',
-    E_diagram: '',
-    E1_diagram: '',
-    E2_diagram: '',
-    F_diagram: '',
-    F1_diagram: '',
-    F2_diagram: '',
-    A_diagram: '',
-    A1_diagram: '',
-    A2_diagram: '',
-    A3_diagram: '',
-    C_diagram: '',
-    C1_diagram: '',
-    C2_diagram: '',
-    Y_diagram: '',
-    H_diagram: '',
-    H1_diagram: '',
-    H2_diagram: '',
-    G_diagram: '',
-    G1_diagram: '',
-    G2_diagram: '',
-    G4_diagram: '',
-    L_diagram: '',
-    M_diagram: '',
-    D_diagram: '',
-    D1_diagram: '',
-    D2_diagram: '',
-    X_diagram: '',
+    B: '',
+    B1: '',
+    B2: '',
+    B3: '',
+    E: '',
+    E1: '',
+    E2: '',
+    F: '',
+    F1: '',
+    F2: '',
+    A: '',
+    A1: '',
+    A2: '',
+    A3: '',
+    C: '',
+    C1: '',
+    C2: '',
+    Y: '',
+    H: '',
+    H1: '',
+    H2: '',
+    G: '',
+    G1: '',
+    G2: '',
+    G4: '',
+    L: '',
+    M: '',
+    D: '',
+    D1: '',
+    D2: '',
+    X: '',
   };
 
   let birthDate = '';
@@ -136,15 +136,13 @@
       }
       personalPoints.push(firstPoint);
 
-      params.A_diagram = firstPoint;
+      params.A = firstPoint;
 
       // Расчет второй точки (верхняя)
       let secondPoint = month;
-      params.B_diagram = secondPoint;
+      params.B = secondPoint;
 
       personalPoints.push(secondPoint);
-
-      params.E2_diagram = ПривестиК(params.A_diagram + params.B_diagram);
 
       // Расчет третьей точки (правая)
       let thirdPoint = 0;
@@ -156,27 +154,24 @@
         });
       ПривестиК(thirdPoint);
       personalPoints.push(thirdPoint);
-      params.C_diagram = thirdPoint;
-
-      params.F2_diagram = ПривестиК(params.B_diagram + params.C_diagram);
+      params.C = thirdPoint;
 
       // Расчет четвертой точки (нижняя)
       let fourthPoint = ПривестиК(firstPoint + secondPoint + thirdPoint);
 
       personalPoints.push(fourthPoint);
-      params.D_diagram = fourthPoint;
+      params.D = fourthPoint;
 
       // Расчет пятой точки (центр)
       let fifthPoint = ПривестиК(
-        thirdPoint + firstPoint + secondPoint + thirdPoint + fourthPoint
+        thirdPoint + firstPoint + secondPoint + fourthPoint
       );
 
       // personalPoints.push(fifthPoint);
-      params.X_diagram = fifthPoint;
+      params.X = fifthPoint;
 
-      params.G2_diagram = ПривестиК(params.C_diagram + params.D_diagram);
-
-      params.H2_diagram = ПривестиК(params.A_diagram + params.D_diagram);
+    
+      params.H2 = ПривестиК(params.A + params.D);
 
       return personalPoints;
     }
@@ -188,58 +183,64 @@
       // Расчет верхней левой точки (род папы)
       familyPoints.push(personalSquare[0] + personalSquare[1]);
 
-      params.E_diagram = ПривестиК(personalSquare[0] + personalSquare[1]);
-
-      params.E1_diagram = ПривестиК(params.E_diagram + params.E2_diagram);
+      params.E = ПривестиК(params.A + params.B);
 
       // Расчет верхней правой точки (род мамы)
 
-      params.F_diagram = ПривестиК(personalSquare[1] + personalSquare[2]);
-      familyPoints.push(params.F_diagram);
+      params.F = ПривестиК(params.B + params.C);
+      familyPoints.push(params.F);
 
-      params.B2_diagram = ПривестиК(params.E_diagram + params.F_diagram);
+      params.B2 = ПривестиК(params.B + params.X);
 
-      params.B1_diagram = ПривестиК(params.B_diagram + params.B2_diagram);
+      params.B1 = ПривестиК(params.B + params.B2);
 
       // Расчет нижней правой точки (род папы)
 
-      params.G_diagram = ПривестиК(personalSquare[2] + personalSquare[3]);
+      params.G = ПривестиК(params.C + params.D);
 
-      familyPoints.push(params.E_diagram);
+      familyPoints.push(params.E);
 
-      params.C2_diagram = ПривестиК(params.F_diagram + params.G_diagram);
+      params.C2 = ПривестиК(params.C + params.X);
 
-      params.F1_diagram = ПривестиК(params.F_diagram + params.F2_diagram);
+      params.H = ПривестиК(params.D + params.A);
 
-      params.C1_diagram = ПривестиК(params.C_diagram + params.C2_diagram);
+      params.Y = ПривестиК(params.E + params.F + params.G + params.H);
 
-      // Расчет нижней левой точки (род мамы)
+      params.C1 = ПривестиК(params.C + params.C2);
 
-      params.H_diagram = ПривестиК(personalSquare[3] + personalSquare[0]);
+      params.E2 = ПривестиК(params.E + params.Y);
 
-      params.D2_diagram = ПривестиК(params.G_diagram + params.H_diagram);
+      params.E1 = ПривестиК(params.E + params.E2);
 
-      params.A2_diagram = ПривестиК(params.E_diagram + params.H_diagram);
+      params.D2 = ПривестиК(params.D + params.X);
 
-      params.A1_diagram = ПривестиК(params.A_diagram + params.A2_diagram);
+      params.A2 = ПривестиК(params.A + params.X);
 
-      params.G1_diagram = ПривестиК(params.G_diagram + params.G2_diagram);
+      params.A1 = ПривестиК(params.A + params.A2);
 
-      params.D1_diagram = ПривестиК(params.D_diagram + params.D2_diagram);
+      params.D1 = ПривестиК(params.D + params.D2);
 
-      params.H1_diagram = ПривестиК(params.H_diagram + params.H2_diagram);
+      params.H2 = ПривестиК(params.H + params.Y);
 
-      params.A3_diagram = ПривестиК(params.X_diagram + params.A2_diagram);
+      params.H1 = ПривестиК(params.H + params.H2);
 
-      params.B3_diagram = ПривестиК(params.X_diagram + params.B2_diagram);
+      params.A3 = ПривестиК(params.X + params.A2);
 
-      params.Y_diagram = ПривестиК(params.X_diagram + params.C2_diagram);
+      params.B3 = ПривестиК(params.X + params.B2);
 
-      params.G4_diagram = ПривестиК(params.X_diagram + params.G2_diagram);
+      params.G2 = ПривестиК(params.G + params.Y);
 
-      params.M_diagram = ПривестиК(params.G4_diagram + params.C2_diagram);
+      params.G4 = ПривестиК(params.C2 + params.D2);
 
-      params.L_diagram = ПривестиК(params.G4_diagram + params.D2_diagram);
+      params.G1 = ПривестиК( params.G2 +  params.G);
+
+      params.M = ПривестиК(params.G4 + params.C2);
+
+      params.L = ПривестиК(params.G4 + params.D2);
+
+      params.F2 = ПривестиК(params.F + params.Y);
+
+      params.F1 = ПривестиК(params.F + params.F2);
 
       return familyPoints;
     }
@@ -352,60 +353,55 @@
   <!-- <canvas id="squareChart" width="400" height="400"></canvas> -->
 </div>
 
+<Diagrama data={params}></Diagrama>
+
 <div class="container">
   <div class="first-screen-content">
-    {#await Translate(`Матрица Судьбы`,lang) then data}
-    <h1>{data}</h1>
+    {#await Translate(`Матрица Судьбы`, lang) then data}
+      <h1>{data}</h1>
     {/await}
     <h2>
-      {#await Translate(`Глубокая расшифровка вашей личности`,lang) then data}
-      <span style="color: #707070">{data}</span>
+      {#await Translate(`Глубокая расшифровка вашей личности`, lang) then data}
+        <span style="color: #707070">{data}</span>
       {/await}
     </h2>
     <p>
-      
-      <span style="color: #707070"
-        >
-        {#await Translate(`Рассчитайте бесплатно`,lang) then data}
-        <strong>{data}</strong> 
+      <span style="color: #707070">
+        {#await Translate(`Рассчитайте бесплатно`, lang) then data}
+          <strong>{data}</strong>
         {/await}
-         {#await Translate(`вашу матрицу судьбы, прямо сейчас,
-        чтобы узнать себя на 100%`,lang) then data}
-        {data}
+        {#await Translate(`вашу матрицу судьбы, прямо сейчас,
+        чтобы узнать себя на 100%`, lang) then data}
+          {data}
         {/await}
-        </span>
+      </span>
     </p>
 
     <div class="inputs">
-      {#await Translate(`Введите ваше имя*`,lang) then data}
-      <input
-        id="name"
-        type="text"
-        placeholder={data}
-        class="inputs-header"
-      />
+      {#await Translate(`Введите ваше имя*`, lang) then data}
+        <input id="name" type="text" placeholder={data} class="inputs-header" />
       {/await}
-      {#await Translate(`Введите дату рождения*`,lang) then data}
-      <input
-        id="date"
-        type="text"
-        placeholder={data}
-        class="inputs-header inputs-header-date"
-      />
+      {#await Translate(`Введите дату рождения*`, lang) then data}
+        <input
+          id="date"
+          type="text"
+          placeholder={data}
+          class="inputs-header inputs-header-date"
+        />
       {/await}
       <div class="inputs-gender">
         <span id="woman" class="inputs-gender-woman active-gender">Ж</span>
         <span id="man" class="inputs-gender-man">М</span>
       </div>
     </div>
-     {#await Translate(`Рассчитать мою матрицу`,lang) then data}
-    <a
-      href="https://humanmatrix.ru/calculator"
-      id="calculate_button"
-      style="cursor: pointer"
-      class="btn-count"
-      >{data}
-    </a>
+    {#await Translate(`Рассчитать мою матрицу`, lang) then data}
+      <a
+        href="https://humanmatrix.ru/calculator"
+        id="calculate_button"
+        style="cursor: pointer"
+        class="btn-count"
+        >{data}
+      </a>
     {/await}
   </div>
 
@@ -413,7 +409,7 @@
     <div class="matrica-destiny-content">
       <div class="matrica-destiny-text">
         {#await Translate(`
-        Что такое матрица судьбы?`,  lang) then data}
+        Что такое матрица судьбы?`, lang) then data}
           <h2>{data}</h2>
         {/await}
         {#await Translate(`
@@ -426,15 +422,14 @@
           Результаты расшифровок нашего калькулятора, дают не только подробное
           описание ваших качеств, но и откроют «слепые зоны» и врожденные
           программы, развивая которые, Вы перейдёте на новый уровень во всех
-          сферах жизни.`,lang) then data}
-
-        <p>{data}</p>
+          сферах жизни.`, lang) then data}
+          <p>{data}</p>
         {/await}
         {#await Translate(`
           Благодаря комбинации из тысяч расшифровок в нашем сервисе, Вы
           моментально получите свой глубокий разбор личности, даже без помощи
-          нумеролога.`,lang) then data}
-        <p>{data}</p>
+          нумеролога.`, lang) then data}
+          <p>{data}</p>
         {/await}
       </div>
       <!-- <img
@@ -446,16 +441,11 @@
     </div>
   </div>
 
-  <Diagrama data={params}></Diagrama>
+  
 
   <!-- Создаем элемент canvas для отображения диаграммы -->
   <canvas bind:this={myChart}></canvas>
-  <!-- Вставляем изображение как фоновое -->
-  <!-- <img
-    src="./src/routes/assets/scale_1200.jpeg"
-    alt="Изображение"
-    class="image"
-  /> -->
+
 </div>
 
 <style>
@@ -483,7 +473,7 @@
   }
 
   canvas {
-    /* display: none; */
+    display: none; 
     position: absolute;
     top: 80vh;
     left: 0;

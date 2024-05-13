@@ -35,7 +35,7 @@ export async function POST({ request }) {
             if (res[1]) {
                 res[0].data = res[1].data
             } else if (res[0] && res[0].lang!==lang && !res[1]) {
-               res[0].data =  await Translate(res[0].data, 'ru',lang)
+               res[0].data =  await Translate(res[0].data, lang)
             }
             return new Response(JSON.stringify({
                 res

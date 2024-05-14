@@ -320,7 +320,7 @@
   }
 </script>
 
-<header>
+
   <div class="top-app-bar-container flexor">
     <TopAppBar bind:this={topAppBar} variant="fixed" dense>
       <Row>
@@ -349,10 +349,10 @@
         </Section>
       </Row>
     </TopAppBar>
-    <div class="flexor-content"></div>
+    <div class="flexor-content">flexor-content</div>
   </div>
-</header>
-<div>
+
+<div style="position:relative;    top: 30px;">
   {#await Translate('Ввод и редактирование данных матрицы', lang) then data}
     <label for="birthDateInput">{data}: </label>
   {/await}
@@ -370,6 +370,7 @@
 
   <!-- <canvas id="squareChart" width="400" height="400"></canvas> -->
 </div>
+<br>
 
 <Diagrama data={params}></Diagrama>
 

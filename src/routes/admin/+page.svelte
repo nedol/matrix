@@ -160,7 +160,7 @@
 </header>
 <br />
 
-  <h5>Ввод и редактирование данных матрицы</h5>
+<h2>Ввод и редактирование данных матрицы</h2>
 
 <label for="arkan">Аркан:</label>
 <select id="arkan" bind:value={selectedArkan}>

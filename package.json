@@ -42,6 +42,7 @@
 		"http-proxy-middleware": "^3.0.0",
 		"iso-google-locales": "^3.0.4",
 		"postgres": "^3.4.4",
+		"svelte-input-mask": "^1.1.0",
 		"translate": "^3.0.0",
 		"vite-plugin-commonjs": "^0.10.1"
 	}

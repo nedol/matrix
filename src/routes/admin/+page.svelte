@@ -91,8 +91,7 @@
   }
 
   async function Translate(text: string, to_lang: string) {
-    if(to_lang==='ru')
-     return text;
+    if (to_lang === 'ru') return text;
     const response = await fetch('./admin', {
       method: 'POST',
       headers: {
@@ -109,7 +108,7 @@
       const result = await response.json();
       console.log('Результат:', result);
       // Здесь можно обработать результат, например, отобразить его на странице
-      return result.res
+      return result.res;
     } else {
       console.error('Ошибка при отправке данных');
       // Здесь можно обработать ошибку, например, показать сообщение об ошибке пользователю
@@ -158,7 +157,7 @@
     <div class="flexor-content"></div>
   </div>
 </header>
-<br />
+<main>
 
 <h2>Ввод и редактирование данных матрицы</h2>
 
@@ -190,8 +189,13 @@
   <button on:click={saveArkanaData}>Сохранить</button>
   <!-- {/if} -->
 </div>
+</main>
 
 <style>
+  main{
+    position: relative;
+    top:30px
+  }
   .editor {
     width: 90%;
     margin-top: 20px;

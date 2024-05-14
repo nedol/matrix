@@ -1,6 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-    import TopAppBar, {
+  import MaskInput from 'svelte-input-mask/MaskInput.svelte';
+  let maskString = 'DD.MM.YYYY';
+  let mask = '00.00.0000';
+
+  import TopAppBar, {
     Row,
     Section,
     Title,
@@ -52,7 +56,7 @@
     X: '',
   };
 
-  let birthDate = '';
+  let value =  '';
   let personalSquareChart;
   let familySquareChart;
 
@@ -177,7 +181,6 @@
       // personalPoints.push(fifthPoint);
       params.X = fifthPoint;
 
-    
       params.H2 = ПривестиК(params.A + params.D);
 
       return personalPoints;
@@ -239,7 +242,7 @@
 
       params.G4 = ПривестиК(params.C2 + params.D2);
 
-      params.G1 = ПривестиК( params.G2 +  params.G);
+      params.G1 = ПривестиК(params.G2 + params.G);
 
       params.M = ПривестиК(params.G4 + params.C2);
 
@@ -253,6 +256,9 @@
     }
 
     // Проверка наличия даты рождения
+    
+    let birthDate = value;
+
     if (birthDate) {
       let [day, month, year] = birthDate
         .split('.')
@@ -318,156 +324,169 @@
     myChart.data.datasets[1].data = familySquare;
     myChart.update();
   }
+
+  const handleChange = ({ detail }) => {
+    value = detail.inputState.maskedValue;
+    if (parseInt(value[6], 10) > 2) {
+      maskString = 'DD.MM.YY';
+      mask = '00.00.00';
+    } else {
+      maskString = 'DD.MM.YYYY';
+      mask = '00.00.0000';
+    }
+  };
 </script>
 
-
-  <div class="top-app-bar-container flexor">
-    <TopAppBar bind:this={topAppBar} variant="fixed" dense>
-      <Row>
-        <Section align="end">
-          <span
-            class="lang_span"
-            on:click={() => {
-              lang_menu = !lang_menu;
-            }}
-            >{(() => {
-              return ISO6391.getNativeName(lang);
-            })()}</span
-          >
-          {#if lang_menu}
-            <div class="lang_list">
-              {#each langs_list as lang}
-                <div
-                  style="color:black; margin:10px;font-size:smaller"
-                  on:click={setLang}
-                >
-                  {lang}
-                </div>
-              {/each}
-            </div>
-          {/if}
-        </Section>
-      </Row>
-    </TopAppBar>
-    <div class="flexor-content">flexor-content</div>
-  </div>
-
-<div style="position:relative;    top: 30px;">
-  {#await Translate('Ввод и редактирование данных матрицы', lang) then data}
-    <label for="birthDateInput">{data}: </label>
-  {/await}
-
-  <input
-    type="text"
-    id="birthDateInput"
-    bind:value={birthDate}
-    pattern="\d{2}\.\d{2}\.\d{4}"
-    placeholder="dd.mm.yyyy"
-  />
-  {#await Translate('Рассчитать квадраты', lang) then data}
-    <button on:click={calculateSquare}>{data}</button>
-  {/await}
-
-  <!-- <canvas id="squareChart" width="400" height="400"></canvas> -->
+<div class="top-app-bar-container flexor">
+  <TopAppBar bind:this={topAppBar} variant="fixed" dense>
+    <Row>
+      <Section align="end">
+        <span
+          class="lang_span"
+          on:click={() => {
+            lang_menu = !lang_menu;
+          }}
+          >{(() => {
+            return ISO6391.getNativeName(lang);
+          })()}</span
+        >
+        {#if lang_menu}
+          <div class="lang_list">
+            {#each langs_list as lang}
+              <div
+                style="color:black; margin:10px;font-size:smaller"
+                on:click={setLang}
+              >
+                {lang}
+              </div>
+            {/each}
+          </div>
+        {/if}
+      </Section>
+    </Row>
+  </TopAppBar>
+  <div class="flexor-content">flexor-content</div>
 </div>
-<br>
 
-<Diagrama data={params}></Diagrama>
-
-<div class="container">
-  <div class="first-screen-content">
-    {#await Translate(`Матрица Судьбы`, lang) then data}
-      <h1>{data}</h1>
+<main>
+  <div>
+    {#await Translate('Ввод и редактирование данных матрицы', lang) then data}
+      <label for="birthDateInput">{data}: </label>
     {/await}
-    <h2>
-      {#await Translate(`Глубокая расшифровка вашей личности`, lang) then data}
-        <span style="color: #707070">{data}</span>
-      {/await}
-    </h2>
-    <p>
-      <span style="color: #707070">
-        {#await Translate(`Рассчитайте бесплатно`, lang) then data}
-          <strong>{data}</strong>
-        {/await}
-        {#await Translate(`вашу матрицу судьбы, прямо сейчас,
-        чтобы узнать себя на 100%`, lang) then data}
-          {data}
-        {/await}
-      </span>
-    </p>
 
-    <div class="inputs">
-      {#await Translate(`Введите ваше имя*`, lang) then data}
-        <input id="name" type="text" placeholder={data} class="inputs-header" />
-      {/await}
-      {#await Translate(`Введите дату рождения*`, lang) then data}
-        <input
-          id="date"
-          type="text"
-          placeholder={data}
-          class="inputs-header inputs-header-date"
-        />
-      {/await}
-      <div class="inputs-gender">
-        <span id="woman" class="inputs-gender-woman active-gender">Ж</span>
-        <span id="man" class="inputs-gender-man">М</span>
-      </div>
-    </div>
-    {#await Translate(`Рассчитать мою матрицу`, lang) then data}
-      <a
-        href="https://humanmatrix.ru/calculator"
-        id="calculate_button"
-        style="cursor: pointer"
-        class="btn-count"
-        >{data}
-      </a>
+    <MaskInput  id="birthDateInput" alwaysShowMask {maskString} {mask} on:change={handleChange} />
+
+
+    {#await Translate('Рассчитать квадраты', lang) then data}
+      <button on:click={calculateSquare}>{data}</button>
     {/await}
+
+    <!-- <canvas id="squareChart" width="400" height="400"></canvas> -->
   </div>
 
-  <div class="container-big">
-    <div class="matrica-destiny-content">
-      <div class="matrica-destiny-text">
-        {#await Translate(`
-        Что такое матрица судьбы?`, lang) then data}
-          <h2>{data}</h2>
+  <Diagrama data={params}></Diagrama>
+
+  <div class="container">
+    <div class="first-screen-content">
+      {#await Translate(`Матрица Судьбы`, lang) then data}
+        <h1>{data}</h1>
+      {/await}
+      <h2>
+        {#await Translate(`Глубокая расшифровка вашей личности`, lang) then data}
+          <span style="color: #707070">{data}</span>
         {/await}
-        {#await Translate(`
+      </h2>
+      <p>
+        <span style="color: #707070">
+          {#await Translate(`Рассчитайте бесплатно`, lang) then data}
+            <strong>{data}</strong>
+          {/await}
+          {#await Translate(`вашу матрицу судьбы, прямо сейчас,
+        чтобы узнать себя на 100%`, lang) then data}
+            {data}
+          {/await}
+        </span>
+      </p>
+
+      <div class="inputs">
+        {#await Translate(`Введите ваше имя*`, lang) then data}
+          <input
+            id="name"
+            type="text"
+            placeholder={data}
+            class="inputs-header"
+          />
+        {/await}
+        {#await Translate(`Введите дату рождения*`, lang) then data}
+          <input
+            id="date"
+            type="text"
+            placeholder={data}
+            class="inputs-header inputs-header-date"
+          />
+        {/await}
+        <div class="inputs-gender">
+          <span id="woman" class="inputs-gender-woman active-gender">Ж</span>
+          <span id="man" class="inputs-gender-man">М</span>
+        </div>
+      </div>
+      {#await Translate(`Рассчитать мою матрицу`, lang) then data}
+        <a
+          href="https://humanmatrix.ru/calculator"
+          id="calculate_button"
+          style="cursor: pointer"
+          class="btn-count"
+          >{data}
+        </a>
+      {/await}
+    </div>
+
+    <div class="container-big">
+      <div class="matrica-destiny-content">
+        <div class="matrica-destiny-text">
+          {#await Translate(`
+        Что такое матрица судьбы?`, lang) then data}
+            <h2>{data}</h2>
+          {/await}
+          {#await Translate(`
                Это система для персонального расчёта всех важных аспектов жизни,
           основанная на дате вашего рождения. Это самое простое и быстрое
           решение, если вам нужны точные ответы здесь и сейчас.`, lang) then data}
-          <p class="p-strong">{data}</p>
-        {/await}
-        {#await Translate(`
+            <p class="p-strong">{data}</p>
+          {/await}
+          {#await Translate(`
           Результаты расшифровок нашего калькулятора, дают не только подробное
           описание ваших качеств, но и откроют «слепые зоны» и врожденные
           программы, развивая которые, Вы перейдёте на новый уровень во всех
           сферах жизни.`, lang) then data}
-          <p>{data}</p>
-        {/await}
-        {#await Translate(`
+            <p>{data}</p>
+          {/await}
+          {#await Translate(`
           Благодаря комбинации из тысяч расшифровок в нашем сервисе, Вы
           моментально получите свой глубокий разбор личности, даже без помощи
           нумеролога.`, lang) then data}
-          <p>{data}</p>
-        {/await}
-      </div>
-      <!-- <img
+            <p>{data}</p>
+          {/await}
+        </div>
+        <!-- <img
         data-aos="flip-down"
         src="https://humanmatrix.ru/wp-content/themes/matrix_new/img/matrica-destiny.svg"
         alt="matrica"
         class="matrica-img aos-init aos-animate"
       /> -->
+      </div>
     </div>
+
+    <!-- Создаем элемент canvas для отображения диаграммы -->
+    <!-- <canvas bind:this={myChart}></canvas> -->
   </div>
-
-  
-
-  <!-- Создаем элемент canvas для отображения диаграммы -->
-  <!-- <canvas bind:this={myChart}></canvas> -->
-
-</div>
+</main>
 
 <style>
+  main {
+    position: relative;
+    top: 30px;
+  }
   .container {
     position: relative;
     width: 500px; /* Укажите желаемую ширину изображения */
@@ -492,7 +511,7 @@
   }
 
   canvas {
-    display: none; 
+    display: none;
     position: relative;
     top: 80vh;
     left: 0;

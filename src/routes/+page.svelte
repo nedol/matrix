@@ -1,5 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+    import TopAppBar, {
+    Row,
+    Section,
+    Title,
+    AutoAdjust,
+  } from '@smui/top-app-bar';
   import Chart from 'chart.js/auto';
   import ISO6391 from 'iso-google-locales';
   import langs_list from '$lib/lang_list.json';
@@ -10,6 +16,7 @@
 
   let lang = 'ru';
   let lang_menu = false;
+  let topAppBar;
 
   let params = {
     B: '',
@@ -313,27 +320,38 @@
   }
 </script>
 
-<span
-  class="lang_span"
-  on:click={() => {
-    lang_menu = !lang_menu;
-  }}
-  >{(() => {
-    return ISO6391.getNativeName(lang);
-  })()}</span
->
-{#if lang_menu}
-  <div class="lang_list">
-    {#each langs_list as lang}
-      <div
-        style="color:black; margin:10px;font-size:smaller"
-        on:click={setLang}
-      >
-        {lang}
-      </div>
-    {/each}
+<header>
+  <div class="top-app-bar-container flexor">
+    <TopAppBar bind:this={topAppBar} variant="fixed" dense>
+      <Row>
+        <Section align="end">
+          <span
+            class="lang_span"
+            on:click={() => {
+              lang_menu = !lang_menu;
+            }}
+            >{(() => {
+              return ISO6391.getNativeName(lang);
+            })()}</span
+          >
+          {#if lang_menu}
+            <div class="lang_list">
+              {#each langs_list as lang}
+                <div
+                  style="color:black; margin:10px;font-size:smaller"
+                  on:click={setLang}
+                >
+                  {lang}
+                </div>
+              {/each}
+            </div>
+          {/if}
+        </Section>
+      </Row>
+    </TopAppBar>
+    <div class="flexor-content"></div>
   </div>
-{/if}
+</header>
 <div>
   {#await Translate('Ввод и редактирование данных матрицы', lang) then data}
     <label for="birthDateInput">{data}: </label>
@@ -444,7 +462,7 @@
   
 
   <!-- Создаем элемент canvas для отображения диаграммы -->
-  <canvas bind:this={myChart}></canvas>
+  <!-- <canvas bind:this={myChart}></canvas> -->
 
 </div>
 
@@ -474,7 +492,7 @@
 
   canvas {
     display: none; 
-    position: absolute;
+    position: relative;
     top: 80vh;
     left: 0;
     z-index: 1;
